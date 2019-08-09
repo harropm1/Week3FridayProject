@@ -1,0 +1,1 @@
+This is the readme for the Week 3 Friday Project. As of right now, I have no details other than it is about national parks and will probably involve dynamically creating tables.
