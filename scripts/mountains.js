@@ -1,7 +1,11 @@
 "use strict";
 
 
-//generic function for inserting a two column table
+/* this function dynamically creates a table with two columns
+*
+* @param list = this is the list that is passed in, in this case, the list of mountains from the json file
+* @param tBody = this is the body of the table that the data is passed into
+*/
 function insertTableData(list, tBody)
 {
     let row1 = tBody.insertRow(0);
@@ -22,6 +26,7 @@ function insertTableData(list, tBody)
     cell5Effort.innerHTML = "Effort";
     cell6Effort.innerHTML = list.effort;
 
+    //inserting image into file
     let mtnImage = document.createElement("img");
     mtnImage.src = "images/" + list.img;
     mtnImage.alt = list.name;
@@ -45,8 +50,12 @@ function insertTableData(list, tBody)
     cell12LatLong.innerHTML = "Latitude: " + list.coords.lat + ", Longitude: " + list.coords.lng;
 }
 
-//creating a table when sorting by a category (includes clearing just the body of the table)
-function createTable(list, selection)
+/* this function creates a table when a user searches for a mountain (includes clearing just the body of the table)
+*
+* @param list = this is the list that is passed in, in this case, the list of mountains from the json file
+* @param selection = this is the selection that the user has made from the dropdown, which is dynamically created lower on this page
+*/
+function createMountainTable(list, selection)
 {
     let tBody = document.getElementById("tableBody");
 
@@ -70,6 +79,7 @@ window.onload = function ()
 
     let mountainSelectInput = document.querySelector("#mountainSelect");
 
+    //getting JSON object and creating list of mountain names dynamically
     $.getJSON("data/mountains.json", function (data)
     {
         objects = data.mountains;
@@ -88,6 +98,6 @@ window.onload = function ()
 
     mountainBtn.onclick = function ()
     {
-        createTable(objects, mountainSelectInput);
+        createMountainTable(objects, mountainSelectInput);
     }
 }
