@@ -1,7 +1,11 @@
 "use strict";
 
 
-//generic function for inserting a two column table
+/* this function dynamically creates a table
+*
+* @param list = this is the list that is passed in, in this case, the list of parks from the json file
+* @param tBody = this is the body of the table that the data is passed into
+*/
 function insertTableData(list, tBody)
 {
     let row1 = tBody.insertRow(-1);
@@ -44,7 +48,11 @@ function insertTableData(list, tBody)
     cell6LatLong.innerHTML = "Latitude: " + list.Latitude + "\nLongitude: " + list.Longitude;
 }
 
-//creating a table when sorting by a category (includes clearing just the body of the table)
+/* this function creates a table when a user searches by state (includes clearing just the body of the table)
+*
+* @param list = this is the list that is passed in, in this case, the list of parks from the json file
+* @param selection = this is the selection that the user has made from the dropdown, which is dynamically created lower on this page
+*/
 function createSearchByStateTable(list, selection)
 {
     let tBody = document.getElementById("tableBody");
@@ -62,6 +70,11 @@ function createSearchByStateTable(list, selection)
     }
 }
 
+/* this function creates a table when searching by park type (includes clearing just the body of the table)
+*
+* @param list = this is the list that is passed in, in this case, the list of parks from the json file
+* @param selection = this is the selection that the user has made from the dropdown, which is dynamically created lower on this page
+*/
 function createSearchByParkTypeTable(list, selection)
 {
     let tBody = document.getElementById("tableBody");
@@ -80,6 +93,10 @@ function createSearchByParkTypeTable(list, selection)
     }
 }
 
+/* this function creates a table when the user clicks a button to show all parks (includes clearing just the body of the table)
+*
+* @param list = this is the list that is passed in, in this case, the list of parks from the json file
+*/
 function createShowAllParks(list)
 {
     let tBody = document.getElementById("tableBody");
@@ -184,7 +201,8 @@ window.onload = function ()
         element2.value = parkType[i];
         parkTypeSelectInput.appendChild(element2);
     }
-
+    
+    //pulling in the JSON object
     let objects;
     $.getJSON("data/nationalparks.json", function (parks)
     {
@@ -196,7 +214,7 @@ window.onload = function ()
     let parkTypeGoBtn = document.querySelector("#parkTypeGoBtn")
     let viewAllBtn = document.querySelector("#viewAllBtn")
 
-
+    //click events
     stateGoBtn.onclick = function ()
     {
         createSearchByStateTable(objects, stateSelectInput.value);
