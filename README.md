@@ -1,1 +1,1 @@
-This is the readme for the Week 3 Friday Project. As of right now, I have no details other than it is about national parks and will probably involve dynamically creating tables.
+This is the readme for the Week 3 Friday Project, Enjoy the Outdoors. It will include a dynamically created dropdown and table relating to National Parks.
