@@ -189,7 +189,6 @@ window.onload = function ()
     $.getJSON("data/nationalparks.json", function (parks)
     {
         objects = parks;
-        console.log(objects);
     }); //closing JSON object
 
     //defining buttons
