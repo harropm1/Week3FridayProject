@@ -4,47 +4,44 @@
 //generic function for inserting a two column table
 function insertTableData(list, tBody)
 {
-    let row1 = tBody.insertRow(0);
+    let row1 = tBody.insertRow(-1);
+
     let cell1Name = row1.insertCell(0);
-    let cell2Name = row1.insertCell(1);
-    cell1Name.innerHTML = "Name of Park";
-    cell2Name.innerHTML = list.LocationName;
+    let cell2Address = row1.insertCell(1);
+    let cell3Phone = row1.insertCell(2);
+    let cell4Fax = row1.insertCell(3);
+    let cell5Visit = row1.insertCell(4);
+    let cell6LatLong = row1.insertCell(5);
 
-    let row2 = tBody.insertRow(1)
-    let cell3Address = row2.insertCell(0);
-    let cell4Address = row2.insertCell(1);
-    cell3Address.innerHTML = "Address";
-    cell4Address.innerHTML = list.Address + ", " + list.City + ", " + list.State + " " + ZipCode;
-
-    let row3 = tBody.insertRow(2)
-    let cell5Phone = row3.insertCell(0);
-    let cell6Phone = row3.insertCell(1);
-    cell5Phone.innerHTML = "Phone Number";
-    cell6Phone.innerHTML = list.Phone;
-
-    let row4 = tBody.insertRow(3)
-    let cell7Fax = row4.insertCell(0);
-    let cell8Fax = row4.insertCell(1);
-    cell7Fax.innerHTML = "Fax Number";
-    cell8Fax.innerHTML = list.Fax;
-
-    let row5 = tBody.insertRow(4)
-    let cell9Lat = row5.insertCell(0);
-    let cell10Lat = row5.insertCell(1);
-    cell9Lat.innerHTML = "Latitude";
-    cell10Lat.innerHTML = list.Latitude;
-
-    let row6 = tBody.insertRow(5)
-    let cell11Long = row6.insertCell(0);
-    let cell12Long = row6.insertCell(1);
-    cell11Long.innerHTML = "Longitude";
-    cell12Long.innerHTML = list.Longitude;
-
-    let row7 = tBody.insertRow(5)
-    let cell13coords = row7.insertCell(0);
-    let cell14coords = row7.insertCell(1);
-    cell13coords.innerHTML = "Location";
-    cell14coords.innerHTML = list.Location.coordinates;
+    cell1Name.innerHTML = list.LocationName;    
+    cell2Address.innerHTML = list.City + ", " + list.State;
+    if (list.Phone == 0 )
+    {
+        cell3Phone.innerHTML = "&nbsp;";
+    }
+    else
+    {
+        cell3Phone.innerHTML = list.Phone;
+    }   
+    
+    if (list.Fax == 0)
+    {
+        cell4Fax.innerHTML = "&nbsp;";    
+    }
+    else
+    {
+        cell4Fax.innerHTML = list.Fax;
+    }   
+    
+    if (list.Visit != undefined)
+    {
+        cell5Visit.innerHTML = list.Visit;
+    }
+    else
+    {
+        cell5Visit.innerHTML = "&nbsp;";
+    }    
+    cell6LatLong.innerHTML = "Latitude: " + list.Latitude + "\nLongitude: " + list.Longitude;
 }
 
 //creating a table when sorting by a category (includes clearing just the body of the table)
@@ -52,16 +49,44 @@ function createSearchByStateTable(list, selection)
 {
     let tBody = document.getElementById("tableBody");
 
-    /* while (tBody.childNodes.length)
+    while (tBody.childNodes.length)
     {
         tBody.removeChild(tBody.childNodes[0]);
-    } */
-    for (let i = 0; i < list.length; i++)
+    }
+    for (let i = 0; i < list.parks.length; i++)
     {
-        if (selection.value == list[i].state)
+        if (selection == list.parks[i].State)
         {
-            insertTableData(list[i], tBody);
+            insertTableData(list.parks[i], tBody);
         }
+    }
+}
+
+function createSearchByParkTypeTable(list, selection)
+{
+    let tBody = document.getElementById("tableBody");
+
+    while (tBody.childNodes.length)
+    {
+        tBody.removeChild(tBody.childNodes[0]);
+    }
+    for (let i = 0; i < list.parks.length; i++)
+    {
+        let regExp = new RegExp (selection, 'i');
+        if (regExp.exec(list.parks[i].LocationName))
+        {
+            insertTableData(list.parks[i], tBody);
+        }
+    }
+}
+
+function createShowAllParks(list)
+{
+    let tBody = document.getElementById("tableBody");
+
+    for (let i = 0; i < list.parks.length; i++)
+    {
+        insertTableData(list.parks[i], tBody);
     }
 }
 
@@ -168,23 +193,23 @@ window.onload = function ()
     }); //closing JSON object
 
     //defining buttons
-    let searchByStateBtn = document.querySelector("#searchByStateBtn")
-    let searchByParkTypeBtn = document.querySelector("#searchByParkTypeBtn")
     let stateGoBtn = document.querySelector("#stateGoBtn")
     let parkTypeGoBtn = document.querySelector("#parkTypeGoBtn")
+    let viewAllBtn = document.querySelector("#viewAllBtn")
 
-    searchByStateBtn.onclick = function()
-    {
-        //make this display = "block"
-    }
-
-    searchByParkTypeBtn.onclick = function()
-    {
-        //make this display = "block"
-    }
 
     stateGoBtn.onclick = function ()
     {
-        createSearchByStateTable(objects, stateSelectInput);
+        createSearchByStateTable(objects, stateSelectInput.value);
+    }
+
+    parkTypeGoBtn.onclick = function()
+    {
+        createSearchByParkTypeTable(objects, parkTypeSelectInput.value);
+    }
+
+    viewAllBtn.onclick = function()
+    {
+        createShowAllParks(objects);
     }
 }
